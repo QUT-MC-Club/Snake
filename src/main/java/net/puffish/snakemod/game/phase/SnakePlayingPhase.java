@@ -2,12 +2,14 @@ package net.puffish.snakemod.game.phase;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.puffish.snakemod.SnakeMod;
 import net.puffish.snakemod.game.FoodManager;
 import net.puffish.snakemod.game.ScoreboardManager;
 import net.puffish.snakemod.game.SnakeManager;
 import net.puffish.snakemod.game.map.SnakeMap;
-import xyz.nucleoid.plasmid.game.GameSpace;
+import xyz.nucleoid.plasmid.api.game.GameSpace;
 
 public class SnakePlayingPhase extends SnakeActivePhase {
 	private final int minAliveCount;
@@ -52,11 +54,19 @@ public class SnakePlayingPhase extends SnakeActivePhase {
 	private void eliminate(ServerPlayerEntity killer, ServerPlayerEntity player) {
 		if (killer == player) {
 			gameSpace.getPlayers().sendMessage(
-					SnakeMod.createTranslatable("text", "eliminated", player.getDisplayName())
+					SnakeMod.createTranslatable(
+							"text",
+							"eliminated",
+							Text.empty().formatted(Formatting.WHITE).append(player.getDisplayName())
+					).formatted(Formatting.DARK_AQUA)
 			);
 		} else {
 			gameSpace.getPlayers().sendMessage(
-					SnakeMod.createTranslatable("text", "eliminated.by", player.getDisplayName(), killer.getDisplayName())
+					SnakeMod.createTranslatable(
+							"text",
+							"eliminated.by",
+							Text.empty().formatted(Formatting.WHITE).append(player.getDisplayName())
+					).formatted(Formatting.DARK_AQUA)
 			);
 		}
 	}

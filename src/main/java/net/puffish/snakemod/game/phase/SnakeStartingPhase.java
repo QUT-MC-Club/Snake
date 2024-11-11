@@ -3,12 +3,13 @@ package net.puffish.snakemod.game.phase;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Formatting;
 import net.puffish.snakemod.SnakeMod;
 import net.puffish.snakemod.game.FoodManager;
 import net.puffish.snakemod.game.ScoreboardManager;
 import net.puffish.snakemod.game.SnakeManager;
 import net.puffish.snakemod.game.map.SnakeMap;
-import xyz.nucleoid.plasmid.game.GameSpace;
+import xyz.nucleoid.plasmid.api.game.GameSpace;
 
 import java.util.Random;
 
@@ -63,7 +64,10 @@ public class SnakeStartingPhase extends SnakeActivePhase {
 		if (countdown % 20 == 0) {
 			int seconds = countdown / 20;
 			if (seconds <= 3) {
-				players.showTitle(SnakeMod.createTranslatable("text", "countdown." + seconds), 10, 20, 10);
+				players.showTitle(SnakeMod.createTranslatable(
+						"text",
+						"countdown." + seconds
+				).formatted(Formatting.LIGHT_PURPLE, Formatting.BOLD), 10, 20, 10);
 				players.playSound(SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(), SoundCategory.PLAYERS, 1.0f, seconds == 0 ? 2.0f : 1.0f);
 			}
 			if (seconds == 0) {

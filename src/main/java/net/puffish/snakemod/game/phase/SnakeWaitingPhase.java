@@ -9,12 +9,20 @@ import net.minecraft.world.GameMode;
 import net.puffish.snakemod.config.SnakeConfig;
 import net.puffish.snakemod.game.map.SnakeMap;
 import xyz.nucleoid.fantasy.RuntimeWorldConfig;
-import xyz.nucleoid.plasmid.game.*;
-import xyz.nucleoid.plasmid.game.common.GameWaitingLobby;
-import xyz.nucleoid.plasmid.game.event.GameActivityEvents;
-import xyz.nucleoid.plasmid.game.event.GamePlayerEvents;
-import xyz.nucleoid.plasmid.game.player.PlayerOffer;
-import xyz.nucleoid.plasmid.game.player.PlayerOfferResult;
+import xyz.nucleoid.plasmid.api.game.GameActivity;
+import xyz.nucleoid.plasmid.api.game.GameOpenContext;
+import xyz.nucleoid.plasmid.api.game.GameOpenException;
+import xyz.nucleoid.plasmid.api.game.GameOpenProcedure;
+import xyz.nucleoid.plasmid.api.game.GameResult;
+import xyz.nucleoid.plasmid.api.game.GameSpace;
+import xyz.nucleoid.plasmid.api.game.GameTexts;
+import xyz.nucleoid.plasmid.api.game.common.GameWaitingLobby;
+import xyz.nucleoid.plasmid.api.game.event.GameActivityEvents;
+import xyz.nucleoid.plasmid.api.game.event.GamePlayerEvents;
+import xyz.nucleoid.plasmid.api.game.player.JoinAcceptor;
+import xyz.nucleoid.plasmid.api.game.player.JoinAcceptorResult;
+import xyz.nucleoid.plasmid.api.game.player.JoinOffer;
+import xyz.nucleoid.plasmid.api.game.player.JoinOfferResult;
 
 import java.util.Random;
 
@@ -29,11 +37,8 @@ public class SnakeWaitingPhase extends SnakePhase {
 		var config = context.config();
 
 		return SnakeMap.create(context.server(), config.map()).flatMap(map -> {
-			if (config.players().minPlayers() <= 0 || config.players().maxPlayers() < config.players().minPlayers()) {
+			if (config.players().minPlayers() <= 0) {
 				return Either.right(new IllegalStateException("Invalid game config!"));
-			}
-			if (config.players().maxPlayers() > map.getSpawns().size()) {
-				return Either.right(new IllegalStateException("Not enough spawns!"));
 			}
 
 			var worldConfig = new RuntimeWorldConfig()
@@ -62,7 +67,8 @@ public class SnakeWaitingPhase extends SnakePhase {
 		super.applyListeners(activity);
 
 		activity.listen(GameActivityEvents.REQUEST_START, this::requestStart);
-		activity.listen(GamePlayerEvents.OFFER, this::playerOffer);
+		activity.listen(GamePlayerEvents.OFFER, this::offerPlayer);
+		activity.listen(GamePlayerEvents.ACCEPT, this::acceptPlayer);
 		activity.listen(GameActivityEvents.TICK, this::tick);
 	}
 
@@ -71,20 +77,25 @@ public class SnakeWaitingPhase extends SnakePhase {
 		return GameResult.ok();
 	}
 
-	private PlayerOfferResult playerOffer(PlayerOffer offer) {
-		var player = offer.player();
+	private JoinOfferResult offerPlayer(JoinOffer offer) {
+		if (this.gameSpace.getPlayers().size() + offer.players().size() > map.getSpawns().size()) {
+			return offer.reject(GameTexts.Join.gameFull());
+		}
+		return offer.accept();
+	}
 
-		return offer.accept(
+	private JoinAcceptorResult acceptPlayer(JoinAcceptor acceptor) {
+		return acceptor.teleport(
 				this.world,
 				getRandomWaitingSpawn()
-		).and(() -> player.changeGameMode(GameMode.ADVENTURE));
+		).thenRunForEach(player -> player.changeGameMode(GameMode.ADVENTURE));
 	}
 
 	private void tick() {
 		gameSpace.getPlayers().forEach(player -> {
 			if(!map.getBounds().contains(BlockPos.ofFloored(player.getPos()))){
 				Vec3d pos = getRandomWaitingSpawn();
-				player.teleport(pos.x, pos.y, pos.z);
+				player.teleport(pos.x, pos.y, pos.z, false);
 			}
 		});
 	}

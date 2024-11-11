@@ -1,8 +1,8 @@
 package net.puffish.snakemod.game;
 
+import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
-import net.minecraft.item.FireworkRocketItem;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.DyeColor;
@@ -13,7 +13,7 @@ import net.minecraft.world.GameMode;
 import net.puffish.snakemod.callbacks.EliminateCallback;
 import net.puffish.snakemod.game.entity.SnakePartEntity;
 import xyz.nucleoid.map_templates.BlockBounds;
-import xyz.nucleoid.plasmid.util.ItemStackBuilder;
+import xyz.nucleoid.plasmid.api.util.ItemStackBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -179,7 +179,7 @@ public class SnakePlayer {
 
 	private void kill() {
 		for (var entity : entities) {
-			entity.kill();
+			entity.kill(this.world);
 		}
 		this.player.changeGameMode(GameMode.SPECTATOR);
 		this.dead = true;
@@ -193,7 +193,7 @@ public class SnakePlayer {
 
 	public void spawnFirework() {
 		var pos = getHeadPos();
-		var item = ItemStackBuilder.firework(color.getFireworkColor(), 1, FireworkRocketItem.Type.SMALL_BALL).build();
+		var item = ItemStackBuilder.firework(color.getFireworkColor(), 1, FireworkExplosionComponent.Type.SMALL_BALL).build();
 		var entity = new FireworkRocketEntity(world, pos.x, pos.y, pos.z, item);
 		world.spawnEntity(entity);
 	}

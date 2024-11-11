@@ -2,9 +2,9 @@ package net.puffish.snakemod.game.phase;
 
 import net.minecraft.server.world.ServerWorld;
 import net.puffish.snakemod.game.map.SnakeMap;
-import xyz.nucleoid.plasmid.game.GameActivity;
-import xyz.nucleoid.plasmid.game.GameSpace;
-import xyz.nucleoid.plasmid.game.rule.GameRuleType;
+import xyz.nucleoid.plasmid.api.game.GameActivity;
+import xyz.nucleoid.plasmid.api.game.GameSpace;
+import xyz.nucleoid.plasmid.api.game.rule.GameRuleType;
 
 public abstract class SnakePhase {
 	protected final GameSpace gameSpace;

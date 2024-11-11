@@ -5,8 +5,9 @@ import eu.pb4.sidebars.api.lines.LineBuilder;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Formatting;
 import net.puffish.snakemod.SnakeMod;
-import xyz.nucleoid.plasmid.game.common.widget.SidebarWidget;
+import xyz.nucleoid.plasmid.api.game.common.widget.SidebarWidget;
 
 import java.util.function.BiConsumer;
 
@@ -26,7 +27,7 @@ public class ScoreboardManager {
 	}
 
 	public void addPlayer(ServerPlayerEntity player) {
-		var sidebar = new SidebarWidget(SnakeMod.createTranslatable("sidebar", "title"));
+		var sidebar = new SidebarWidget(SnakeMod.createTranslatable("sidebar", "title").formatted(Formatting.BOLD));
 		sidebar.addPlayer(player);
 		sidebars.put(player, sidebar);
 	}

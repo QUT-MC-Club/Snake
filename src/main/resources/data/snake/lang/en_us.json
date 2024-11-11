@@ -7,18 +7,18 @@
 
 	"gameType.snake.snake": "Snake",
 
-	"text.snake.eliminated": "%s§3 has been eliminated!",
-	"text.snake.eliminated.by": "%s§3 has been eliminated by %s§3!",
-	"text.snake.won": "%s§9 has won the game!",
+	"text.snake.eliminated": "%s has been eliminated!",
+	"text.snake.eliminated.by": "%s has been eliminated by %s!",
+	"text.snake.won": "%s has won the game!",
 
-	"text.snake.countdown.3": "§d§l3",
-	"text.snake.countdown.2": "§d§l2",
-	"text.snake.countdown.1": "§d§l1",
-	"text.snake.countdown.0": "§d§lGO",
+	"text.snake.countdown.3": "3",
+	"text.snake.countdown.2": "2",
+	"text.snake.countdown.1": "1",
+	"text.snake.countdown.0": "GO",
 
-	"sidebar.snake.title": "§lSnake",
-	"sidebar.snake.alive": "§a§lAlive§r %s",
-	"sidebar.snake.dead": "§c§lDead§r %s",
-	"sidebar.snake.length": "§b§lLength§r %s",
-	"sidebar.snake.kills": "§e§lKills§r %s"
+	"sidebar.snake.title": "Snake",
+	"sidebar.snake.alive": "Alive",
+	"sidebar.snake.dead": "Dead",
+	"sidebar.snake.length": "Length",
+	"sidebar.snake.kills": "Kills"
 }
