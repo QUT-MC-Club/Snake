@@ -65,7 +65,8 @@ public class SnakePlayingPhase extends SnakeActivePhase {
 					SnakeMod.createTranslatable(
 							"text",
 							"eliminated.by",
-							Text.empty().formatted(Formatting.WHITE).append(player.getDisplayName())
+							Text.empty().formatted(Formatting.WHITE).append(player.getDisplayName()),
+							Text.empty().formatted(Formatting.WHITE).append(killer.getDisplayName())
 					).formatted(Formatting.DARK_AQUA)
 			);
 		}
