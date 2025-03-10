@@ -65,9 +65,4 @@ public class SnakePartEntity extends SheepEntity {
 	protected boolean shouldDropLoot() {
 		return false;
 	}
-
-//	@Override
-//	public boolean shouldDropXp() {
-//		return false;
-//	}
 }

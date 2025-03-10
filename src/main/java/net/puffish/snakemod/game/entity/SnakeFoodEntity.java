@@ -43,9 +43,4 @@ public class SnakeFoodEntity extends SlimeEntity {
 	protected boolean shouldDropLoot() {
 		return false;
 	}
-
-//	@Override
-//	public boolean shouldDropXp() {
-//		return false;
-//	}
 }
