@@ -66,8 +66,8 @@ public class SnakePartEntity extends SheepEntity {
 		return false;
 	}
 
-	@Override
-	public boolean shouldDropXp() {
-		return false;
-	}
+//	@Override
+//	public boolean shouldDropXp() {
+//		return false;
+//	}
 }
